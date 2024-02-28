@@ -1,0 +1,165 @@
+package programs;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+
+public class Metricconverter extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txt1;
+	private JTextField txt2;
+	private JTextField txt3;
+	private JTextField txt4;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Metricconverter frame = new Metricconverter();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Metricconverter() {
+		setForeground(Color.DARK_GRAY);
+		setBackground(Color.BLACK);
+		setTitle("METRIC CONVERTER");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 359, 229);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lbl1 = new JLabel("VALUE:");
+		lbl1.setForeground(Color.ORANGE);
+		lbl1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbl1.setBounds(10, 36, 60, 23);
+		contentPane.add(lbl1);
+		
+		JLabel lblNewLabel_1 = new JLabel("ANSWER:");
+		lblNewLabel_1.setForeground(Color.ORANGE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_1.setBounds(10, 92, 74, 23);
+		contentPane.add(lblNewLabel_1);
+		
+		txt1 = new JTextField();
+		txt1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txt1.setForeground(Color.WHITE);
+		txt1.setBackground(Color.GRAY);
+		txt1.setBounds(80, 38, 153, 20);
+		contentPane.add(txt1);
+		txt1.setColumns(10);
+		
+		txt2 = new JTextField();
+		txt2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txt2.setForeground(Color.WHITE);
+		txt2.setBackground(Color.GRAY);
+		txt2.setEditable(false);
+		txt2.setBounds(80, 94, 153, 20);
+		contentPane.add(txt2);
+		txt2.setColumns(10);
+		
+		txt3 = new JTextField();
+		txt3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txt3.setForeground(Color.WHITE);
+		txt3.setBackground(Color.GRAY);
+		txt3.setEditable(false);
+		txt3.setBounds(243, 38, 74, 20);
+		contentPane.add(txt3);
+		txt3.setColumns(10);
+		
+		txt4 = new JTextField();
+		txt4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txt4.setForeground(Color.WHITE);
+		txt4.setBackground(Color.GRAY);
+		txt4.setEditable(false);
+		txt4.setBounds(243, 94, 74, 20);
+		contentPane.add(txt4);
+		txt4.setColumns(10);
+		
+		JButton btn1 = new JButton("INCH-CM");
+		btn1.setBackground(Color.DARK_GRAY);
+		btn1.setForeground(Color.ORANGE);
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try { double inch=Double.parseDouble(txt1.getText());
+				double Cm =inch*2.54;
+				txt2.setText(String.format("%.2f",Cm));
+				txt4.setText(String.format("cm"));
+				txt3.setText(String.format("inch"));
+				}catch(NumberFormatException ex) {
+						
+					txt2.setText("invalid input");}
+				}
+		}
+		);
+		btn1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btn1.setBounds(24, 139, 89, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("CM-M");
+		btn2.setBackground(Color.DARK_GRAY);
+		btn2.setForeground(Color.ORANGE);
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+            try {double cm = Double.parseDouble(txt1.getText());
+            double m = cm / 100;
+            txt2.setText(String.format("%.2f",m)+"m");
+			txt4.setText(String.format("meters"));
+			txt3.setText(String.format("cm"));
+			}catch(NumberFormatException ex) {
+					
+				txt2.setText("invalid input");}
+			}
+	}
+		
+		);
+		btn2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btn2.setBounds(123, 139, 89, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("M-FT");
+		btn3.setBackground(Color.DARK_GRAY);
+		btn3.setForeground(Color.ORANGE);
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {double m=Double.parseDouble(txt1.getText());
+				double ft=m*3.281;
+				txt2.setText(String.format("%.2f",ft));
+				txt3.setText(String.format("m"));
+				txt4.setText(String.format("ft"));
+				}catch(NumberFormatException ex) {
+			     txt2.setText("invalid input");
+				}
+			}
+		});
+		btn3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btn3.setBounds(222, 139, 89, 23);
+		contentPane.add(btn3);
+	}
+}
