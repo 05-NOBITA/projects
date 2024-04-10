@@ -1,0 +1,53 @@
+package programs;
+
+public class Posangelo {
+    private String[] Barcodes = {"001", "002", "003","004"};
+    private String[] Names = {"potato", "rat", "bird","rugbee"};
+    private double[] Prices = {150000, 25000, 120500,40};
+
+    // Property
+    private String names = "";
+    protected String price;
+
+    public String getNames() {
+        return names;
+    }
+
+    // Methods
+    public void SearchBarcodes(String barcode) {
+        for (String b : Barcodes) {
+            if (barcode.equalsIgnoreCase(b)) {
+                names = Names[ArrayIndex(b)];
+                return; // Exit the loop once the barcode is found
+            }
+        }
+        // If the barcode is not found, reset the names
+        names = "";
+    }
+
+    public String SearchPrices(String barcode) {
+        // Find the index of the barcode
+        int index = ArrayIndex(barcode);
+
+        // If the barcode is found, return the corresponding price
+        if (index != -1) {
+        	return Double.toString(Prices[index]);    
+        	}
+
+        // If the barcode is not found, return "Price not found"
+        return "Price not found.";
+    }
+
+    private int ArrayIndex(String barcode) {
+        for (int i = 0; i < Barcodes.length; i++) {
+            if (Barcodes[i].equals(barcode)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Constructor
+    public Posangelo() {
+    }
+}
