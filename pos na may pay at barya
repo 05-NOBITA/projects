@@ -1,0 +1,298 @@
+package programs;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class PointOfSale extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txt1;
+	private JTextField txt2;
+	private JTextField txt3;
+	private JTextField txt4;
+	private JTextField txt5;
+	private JTable tbl1;
+	private double grandtotal =0.0;
+	private JTextField txt6;
+	private JTextField txt7;
+	private JTextField txt8;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PointOfSale frame = new PointOfSale();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	//POS1 connector:)
+	
+		/**
+	 * Create the frame.
+	 */
+	public PointOfSale() {
+		setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 12));
+		setResizable(false);
+		setBackground(Color.DARK_GRAY);
+		setForeground(Color.RED);
+		setTitle("POINT OF SALE");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 557, 443);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(81, 30, 72));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lbl1 = new JLabel("BARCODE:");
+		lbl1.setBackground(Color.ORANGE);
+		lbl1.setForeground(Color.GREEN);
+		lbl1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl1.setBounds(10, 21, 64, 21);
+		contentPane.add(lbl1);
+		
+		txt1 = new JTextField();
+		txt1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			if(e.getKeyChar() == KeyEvent.VK_ENTER)
+					{
+					if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				        String barcode = txt1.getText();
+				        Posangelo posangelo = new Posangelo();
+				        posangelo.SearchBarcodes(barcode);
+				        String itemName = posangelo.getNames();
+
+				        if (!itemName.isEmpty()) {
+				            txt2.setText(itemName);
+
+				            String price = posangelo.SearchPrices(barcode);
+				            txt3.setText(price);
+				        } else {
+				            txt2.setText("");
+				            txt3.setText("");
+	                    }
+					}
+				}
+			}
+		});
+		txt1.setBackground(Color.LIGHT_GRAY);
+		txt1.setBounds(97, 21, 86, 20);
+		contentPane.add(txt1);
+		txt1.setColumns(10);
+		
+		JLabel lbl2 = new JLabel("ITEM NAME:");
+		lbl2.setBackground(Color.YELLOW);
+		lbl2.setForeground(Color.GREEN);
+		lbl2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl2.setBounds(10, 53, 71, 14);
+		contentPane.add(lbl2);
+		
+		txt2 = new JTextField();
+		txt2.setEditable(false);
+		txt2.setBackground(Color.LIGHT_GRAY);
+		txt2.setBounds(97, 52, 86, 20);
+		contentPane.add(txt2);
+		txt2.setColumns(10);
+		
+		JLabel lbl3 = new JLabel("ITEM PRICE:");
+		lbl3.setBackground(Color.YELLOW);
+		lbl3.setForeground(Color.GREEN);
+		lbl3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl3.setBounds(10, 86, 71, 17);
+		contentPane.add(lbl3);
+		
+		txt3 = new JTextField();
+		txt3.setEditable(false);
+		txt3.setBackground(Color.LIGHT_GRAY);
+		txt3.setBounds(97, 83, 86, 20);
+		contentPane.add(txt3);
+		txt3.setColumns(10);
+		
+		JLabel lbl4 = new JLabel("QUANTITY:");
+		lbl4.setBackground(Color.YELLOW);
+		lbl4.setForeground(Color.GREEN);
+		lbl4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl4.setBounds(10, 114, 64, 21);
+		contentPane.add(lbl4);
+		
+		txt4 = new JTextField();
+		txt4.setBackground(Color.LIGHT_GRAY);
+		txt4.setBounds(97, 115, 86, 20);
+		contentPane.add(txt4);
+		txt4.setColumns(10);
+		
+		JLabel lbl5 = new JLabel("SUB TOTAL:");
+		lbl5.setBackground(Color.YELLOW);
+		lbl5.setForeground(Color.GREEN);
+		lbl5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl5.setBounds(10, 146, 64, 14);
+		contentPane.add(lbl5);
+		
+		txt5 = new JTextField();
+		txt5.setBackground(Color.LIGHT_GRAY);
+		txt5.setEditable(false);
+		txt5.setBounds(97, 145, 86, 20);
+		contentPane.add(txt5);
+		txt5.setColumns(10);
+		
+		JButton btn1 = new JButton("ADD");
+		btn1.setForeground(Color.GREEN);
+		btn1.addActionListener(new ActionListener() {
+		    double grandtotal = 0;
+		    public void actionPerformed(ActionEvent e) {
+		        String barcode = txt1.getText();
+		        String itemName = txt2.getText();
+
+		        double itemPrice = Double.parseDouble(txt3.getText());
+		        int quantity = Integer.parseInt(txt4.getText());
+		        double subTotal = itemPrice * quantity;
+		        DefaultTableModel model = (DefaultTableModel) tbl1.getModel();
+		        model.addRow(new Object[]{barcode, itemName, quantity, itemPrice, subTotal});
+
+		        txt1.setText("");
+		        txt2.setText("");
+		        txt3.setText("");
+		        
+		        txt4.setText("");
+		        txt5.setText(String.valueOf(subTotal));
+		        grandtotal+= subTotal;
+		        txt6.setText(String.valueOf(grandtotal));
+		        
+		        
+		        
+		
+		         
+		    }
+		});
+		btn1.setBackground(Color.GRAY);
+		btn1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btn1.setBounds(10, 263, 173, 125); 
+		contentPane.add(btn1);
+		
+		JScrollPane scrlpane = new JScrollPane();
+		scrlpane.setBounds(203, 11, 333, 377);
+		contentPane.add(scrlpane);
+		
+		tbl1 = new JTable();
+		tbl1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+	        String barcode = txt1.getText();
+	        String itemname = txt2.getText();
+	        
+	        double itemprice = Double.parseDouble(txt3.getText());
+	        int quantity = Integer.parseInt(txt4.getText());
+	        DefaultTableModel model1 = (DefaultTableModel) tbl1.getModel();
+	        double  subtotal = itemprice * quantity;
+	        Object[] rowData = {barcode, itemname, itemprice, quantity, subtotal};
+	        model1.addRow(rowData);
+	        
+	        txt1.setText("");
+	        txt2.setText("");
+	        txt3.setText("");
+	        txt4.setText("");
+	        txt6.setText(String.valueOf(subtotal));
+	        
+			}
+		});
+		tbl1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		scrlpane.setViewportView(tbl1);
+		tbl1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"BARCODE", "ITEM NAME", "QUANTITY", "PRICE", "TOTAL"
+			}
+		));
+		tbl1.setForeground(Color.ORANGE);
+		tbl1.setBackground(Color.DARK_GRAY);
+		
+		JLabel lblNewLabel = new JLabel("GRAND TOTAL:");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setForeground(Color.GREEN);
+		lblNewLabel.setBackground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(1, 176, 86, 20);
+		contentPane.add(lblNewLabel);
+		
+		txt6 = new JTextField();
+		txt6.setBackground(Color.LIGHT_GRAY);
+		txt6.setEditable(false);
+		txt6.setBounds(97, 176, 86, 20);
+		contentPane.add(txt6);
+		txt6.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("PAYMENT:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setForeground(Color.GREEN);
+		lblNewLabel_1.setBackground(Color.GREEN);
+		lblNewLabel_1.setBounds(10, 207, 64, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		txt7 = new JTextField();
+		txt7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double amountPaid = Double.parseDouble(txt7.getText());
+				double grandTotal = Double.parseDouble(txt6.getText());
+				double change = amountPaid - grandTotal;
+				txt8.setText(String.valueOf(change));
+			}
+		});
+		txt7.setBackground(Color.LIGHT_GRAY);
+		txt7.setBounds(97, 204, 86, 20);
+		contentPane.add(txt7);
+		txt7.setColumns(10);
+		
+		txt8 = new JTextField();
+		txt8.setEditable(false);
+		txt8.setBackground(Color.LIGHT_GRAY);
+		txt8.setBounds(97, 235, 86, 20);
+		contentPane.add(txt8);
+		txt8.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("CHANGE:");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setForeground(Color.GREEN);
+		lblNewLabel_2.setBounds(10, 238, 57, 14);
+		contentPane.add(lblNewLabel_2);
+		
+	}
+
+	public double getGrandtotal() {
+		return grandtotal;
+	}
+
+	public void setGrandtotal(double grandtotal) {
+		this.grandtotal = grandtotal;
+	}
+}
